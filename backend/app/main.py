@@ -188,7 +188,7 @@ def train_model(request: TrainRequest) -> dict:
     elif request.model_type == "random_forest":
         model = RandomForestRegressor(n_estimators=200, random_state=42)
     else:
-        model = RandomForestRegressor(n_estimators=100, random_state=7)
+        model = RandomForestRegressor(n_estimators=100, random_state=42)
 
     model.fit(X_train, y_train)
     preds = model.predict(X_test)
@@ -213,7 +213,7 @@ def predict(request: PredictRequest) -> dict:
     if payload["type"] == "decline_curve":
         history = pd.Series(payload["history"])
         return {
-            "predictions": _decline_curve_forecast(history, periods=max(1, len(request.rows) or 12)),
+            "predictions": _decline_curve_forecast(history, periods=max(1, len(request.rows))),
         }
 
     model = payload["model"]

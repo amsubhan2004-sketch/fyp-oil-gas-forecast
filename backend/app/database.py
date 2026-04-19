@@ -18,4 +18,4 @@ class ForecastHistory(Base):
     mae: Mapped[float] = mapped_column(Float)
     r2: Mapped[float] = mapped_column(Float)
     notes: Mapped[str] = mapped_column(Text, default="")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.utcnow())

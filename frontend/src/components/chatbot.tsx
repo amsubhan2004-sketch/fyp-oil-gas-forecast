@@ -3,13 +3,16 @@
 import { FormEvent, useState } from "react";
 
 type ChatMessage = {
+  id: string;
   role: "user" | "assistant";
   text: string;
 };
 
 export function Chatbot() {
+  const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
+      id: "welcome",
       role: "assistant",
       text: "Hi! I can help explain model metrics, decline curves, and forecasting workflow.",
     },
@@ -24,20 +27,24 @@ export function Chatbot() {
 
     const userMessage = input.trim();
     setInput("");
-    setMessages((prev) => [...prev, { role: "user", text: userMessage }]);
+    setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "user", text: userMessage }]);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/chatbot", {
+      const response = await fetch(`${apiBase}/chatbot`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userMessage }),
       });
       const data = await response.json();
-      setMessages((prev) => [...prev, { role: "assistant", text: data.reply ?? "No response." }]);
+      setMessages((prev) => [
+        ...prev,
+        { id: crypto.randomUUID(), role: "assistant", text: data.reply ?? "No response." },
+      ]);
     } catch {
       setMessages((prev) => [
         ...prev,
         {
+          id: crypto.randomUUID(),
           role: "assistant",
           text: "Backend not running. Start FastAPI to enable chatbot replies.",
         },
@@ -49,8 +56,8 @@ export function Chatbot() {
     <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <h3 className="mb-3 text-lg font-semibold">AI Chatbot</h3>
       <div className="mb-3 h-44 space-y-2 overflow-y-auto rounded-lg bg-zinc-50 p-3 text-sm dark:bg-zinc-800">
-        {messages.map((m, i) => (
-          <p key={`${m.role}-${i}`} className={m.role === "user" ? "text-blue-600" : "text-zinc-700 dark:text-zinc-200"}>
+        {messages.map((m) => (
+          <p key={m.id} className={m.role === "user" ? "text-blue-600" : "text-zinc-700 dark:text-zinc-200"}>
             <strong>{m.role === "user" ? "You" : "AI"}:</strong> {m.text}
           </p>
         ))}

@@ -2,7 +2,7 @@
 
 A complete full-stack starter for oil & gas production forecasting with:
 
-- **Frontend**: Next.js 14+/TypeScript/Tailwind/Framer Motion/Recharts/Three.js/Remotion
+- **Frontend**: Next.js 16/TypeScript/Tailwind/Framer Motion/Recharts/Three.js/Remotion
 - **Backend**: FastAPI + pandas + scikit-learn + decline-curve analysis endpoints
 - **Data stack**: PostgreSQL + Redis (via Docker Compose)
 
@@ -29,7 +29,7 @@ A complete full-stack starter for oil & gas production forecasting with:
 ### Frontend
 
 ```bash
-cd /home/runner/work/fyp-oil-gas-forecast/fyp-oil-gas-forecast/frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -37,7 +37,7 @@ npm run dev
 ### Backend
 
 ```bash
-cd /home/runner/work/fyp-oil-gas-forecast/fyp-oil-gas-forecast/backend
+cd backend
 python -m pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
@@ -45,7 +45,6 @@ uvicorn app.main:app --reload
 ### Docker
 
 ```bash
-cd /home/runner/work/fyp-oil-gas-forecast/fyp-oil-gas-forecast
 docker compose up --build
 ```
 
@@ -54,7 +53,7 @@ docker compose up --build
 ### Frontend
 
 ```bash
-cd /home/runner/work/fyp-oil-gas-forecast/fyp-oil-gas-forecast/frontend
+cd frontend
 npm run lint
 npm run build
 ```
@@ -62,7 +61,7 @@ npm run build
 ### Backend
 
 ```bash
-cd /home/runner/work/fyp-oil-gas-forecast/fyp-oil-gas-forecast/backend
+cd backend
 pytest -q
 ```
 
@@ -72,3 +71,4 @@ pytest -q
 - Remotion video preview is integrated via `@remotion/player`.
 - Three.js (`@react-three/fiber`) powers 3D well visualization.
 - API is ready for extension with TensorFlow/PyTorch and persistent model storage.
+- Frontend uses `NEXT_PUBLIC_API_URL` (see `frontend/.env.example`) for backend endpoint configuration.

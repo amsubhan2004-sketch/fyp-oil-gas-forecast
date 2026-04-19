@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 
 export default function UploadPage() {
+  const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
   const [message, setMessage] = useState("Upload a CSV with date and production columns.");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -18,7 +19,7 @@ export default function UploadPage() {
     payload.append("file", file);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/upload", {
+      const response = await fetch(`${apiBase}/upload`, {
         method: "POST",
         body: payload,
       });
